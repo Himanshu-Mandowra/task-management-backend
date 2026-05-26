@@ -1,6 +1,7 @@
 import express from "express";
 import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const app = express.Router();
 
@@ -12,6 +13,9 @@ app.post("/register", async (req, res) => {
             message: "don't be silly, submitting an empty form is not allowed dude..."
         })
     };
+
+    const encyptedPassword = await bcrypt.hash(data.password, 10);
+    data.password = encyptedPassword;
 
 
     // Generate JWT Token
