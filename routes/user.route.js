@@ -123,8 +123,13 @@ app.post("/update/:userId", async (req, res) => {
 
 })
 
-app.get("/", async (req, res) => {
+app.get("/", auth, async (req, res) => {
     const users = await User.find();
+    if(req.user.role !== "admin"){
+        return res.status(403).json({
+            message: "You are not authorized to view this page"
+        });
+    }
     return res.status(200).json({
         status: true,
         message: "Users Fetched Successfully",
@@ -132,7 +137,7 @@ app.get("/", async (req, res) => {
     });
 });
 
-app.get("/:userId", async (req, res) => {
+app.get("/:userId",auth, async (req, res) => {
     const userID = req.params.userId;
     const user = await User.findById(userID);
 
@@ -142,6 +147,13 @@ app.get("/:userId", async (req, res) => {
             message: "User not found"
         })
     };
+
+    if(req.user.id !== userID && req.user.role !== "admin"){
+        return res.status(403).json({
+            status: false,
+            message: "You are not authorized to view this user"
+        });
+    }
 
     return res.status(200).json({
         status: true,
