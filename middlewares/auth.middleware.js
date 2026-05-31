@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { User } from "../models/user.model.js";
+import { User } from "../models/employee.model.js";
 
 export const auth = async (req, res, next) => {
     try {
@@ -18,7 +18,14 @@ export const auth = async (req, res, next) => {
         console.log(token)
 
         const verifytoken = jwt.verify(token,  process.env.JWT_SECRET)
-        req.user = verifytoken
+        const user = await User.findById(verifytoken.id)
+        if (!user) {
+            return res.status(404).json({
+                status: false,
+                message: "user not found"
+            })
+        }
+        req.user = user
         console.log(verifytoken)
         next()
         

@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const userSchema = new Schema(
+const employeeSchema = new Schema(
     {
         userName: {
             type: String,
@@ -19,10 +19,18 @@ const userSchema = new Schema(
             type: String,
             required: true,
         },
+        adminName: {
+            type: String
+        },
+        adminId: {
+            type: String
+        }
+        // is this needs ad require parameter
+
     },
     {
         timestamps: true
     }
 );
 
-export const User = mongoose.model("User", userSchema);
+export const Employee = mongoose.model("Employee", employeeSchema);

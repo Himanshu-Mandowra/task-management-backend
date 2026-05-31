@@ -1,6 +1,6 @@
 import express from "express";
 import { Task } from "../models/task.model.js";
-import { User } from "../models/user.model.js";
+import { User } from "../models/employee.model.js";
 import { auth } from "../middlewares/auth.middleware.js";
 
 const app = express.Router();
